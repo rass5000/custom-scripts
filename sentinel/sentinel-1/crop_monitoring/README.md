@@ -1,6 +1,8 @@
 ---
 permalink: /sentinel-1/crop_monitoring/
 nav_exclude: true
+sensor: Sentinel-1
+application: [Agriculture, Monitoring]
 ---
 
 # Agricultural Crop Monitoring from Space Script

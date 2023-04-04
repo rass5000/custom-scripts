@@ -1,6 +1,8 @@
 ---
 permalink: /sentinel-1/flood_mapping/
 nav_exclude: true
+sensor: Sentinel-1
+categories: [Hydrology]
 ---
 
 # Flood Mapping With Sentinel-1 Script

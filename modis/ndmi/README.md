@@ -1,6 +1,8 @@
 ---
 permalink: /modis/ndmi/
 nav_exclude: true
+sensor: MODIS
+application: [Hydrology, Agriculture, Index]
 ---
 
 # MODIS Normalized difference moisture index - NDMI
