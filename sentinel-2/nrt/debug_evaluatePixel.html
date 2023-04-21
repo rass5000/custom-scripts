@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JavaScript Example</title>
+</head>
+
+<body>
+    <!-- Utility functions -->
+    <script src="js/eval_utils.js"></script>
+
+    <script src="script.js"></script>
+    <script src="local_data/data.js"></script>
+    <script>
+        try {
+            evaluatePixel(sample, scene);
+        } catch (error) {
+            evaluatePixel(sample);
+        }
+    </script>
+</body>
+
+</html>
