@@ -8,9 +8,9 @@ function setup() {
     input: ["QUAL", "dataMask"],
     output: {
       bands: 4,
-      sampleType: "AUTO"
-    }
-  }
+      sampleType: "AUTO",
+    },
+  };
 }
 
 // create a visualizer
@@ -20,7 +20,7 @@ const map = [
   [73, 0xa6a6e6], // Medium occurrence    // Magenta
   [74, 0x00ffff], // High occurrence      // cyan
   [74, 0x3bb9ff], // Very high occurrence  // deep sky blue
-  [76, 0x0032c8]  //Permanent occurrence   //blue
+  [76, 0x0032c8], //Permanent occurrence   //blue
 ];
 
 const visualizer = new ColorMapVisualizer(map);

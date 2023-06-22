@@ -1,6 +1,6 @@
 // Oil Spill Index in grayscale
 let OSI = (B03 + B04) / B02;
-return [OSI/3]
+return [OSI / 3];
 
 // RGB visualization a)
 /*

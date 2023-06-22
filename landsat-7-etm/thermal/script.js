@@ -2,12 +2,12 @@
 
 const blue_red = [
   [223, 0x003d99],
-  [253, 0x2e82ff],  
+  [253, 0x2e82ff],
   [263, 0x80b3ff],
   [272, 0xe0edff],
   [273, 0xffffff],
   [274, 0xfefce7],
-  [283, 0xFDE191],
+  [283, 0xfde191],
   [293, 0xf69855],
   [303, 0xec6927],
   [323, 0xaa2d1d],
@@ -24,13 +24,13 @@ function evaluatePixel(samples) {
 
 function setup() {
   return {
-    input: [{
-      bands: [
-        "B06"
-      ]
-    }],
+    input: [
+      {
+        bands: ["B06"],
+      },
+    ],
     output: {
-      bands: 3
-    }
-  }
+      bands: 3,
+    },
+  };
 }

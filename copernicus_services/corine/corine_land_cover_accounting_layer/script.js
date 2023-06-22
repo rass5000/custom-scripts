@@ -3,20 +3,20 @@
 function setup() {
   return {
     input: ["CLC_ACC", "dataMask"],
-    output: { bands: 4 }
-  }
+    output: { bands: 4 },
+  };
 }
 
 const map = [
-  [111, 0xe6004d],  //111 - Continuous urban fabric
-  [112, 0xff0000],  //112 - Discontinuous urban fabric
-  [121, 0xcc4df2],  //121 - Industrial or commercial units
-  [122, 0xcc0000],  //122 - Road and rail networks and associated land
-  [123, 0xe6cccc],  //123 - Port areas
-  [124, 0xe6cce6],  //124 - Airports
-  [131, 0xa600cc],  //131 - Mineral extraction sites
-  [132, 0xa64d00],  //132 - Dump sites
-  [133, 0xff4dff],  //133 - Construction sites
+  [111, 0xe6004d], //111 - Continuous urban fabric
+  [112, 0xff0000], //112 - Discontinuous urban fabric
+  [121, 0xcc4df2], //121 - Industrial or commercial units
+  [122, 0xcc0000], //122 - Road and rail networks and associated land
+  [123, 0xe6cccc], //123 - Port areas
+  [124, 0xe6cce6], //124 - Airports
+  [131, 0xa600cc], //131 - Mineral extraction sites
+  [132, 0xa64d00], //132 - Dump sites
+  [133, 0xff4dff], //133 - Construction sites
   [141, 0xffa6ff], //141 - Green urban areas
   [142, 0xffe6ff], //142 - Sport and leisure facilities
   [211, 0xffffa8], //211 - Non-irrigated arable land
@@ -52,7 +52,7 @@ const map = [
   [521, 0x00ffa6], //521 - Coastal lagoons
   [522, 0xa6ffe6], //522 - Estuaries
   [523, 0xe6f2ff], //523 - Sea and ocean
-  [999, 0xffffff]  //999 - NODATA
+  [999, 0xffffff], //999 - NODATA
 ];
 
 const visualizer = new ColorMapVisualizer(map);

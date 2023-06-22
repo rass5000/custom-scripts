@@ -4,20 +4,22 @@
 // Initialize parameters
 
 let L = 0.428; // L = soil brightness correction factor could range from (0 -1)
-let index = (B08 - B04) / (B08 + B04 + L) * (1.0 + L); // calculate savi index
+let index = ((B08 - B04) / (B08 + B04 + L)) * (1.0 + L); // calculate savi index
 
-// using colorblend visualization  in EO browser 
-return colorBlend   // Start of colorBlend function
-(index,	            //  specify the index
-     [ 0,0.1, 0.2,0.4, 0.5,0.7,1], //  specify the borders
-     [ [0.69,0.88,0.90],   // specify RGB colors 
-       [0.74,0.72,0.42],
-       [0.60,0.80,0.20],
-       [0.13, 0.54, 0.13],
-       [0, 0.50, 0],
-       [0, 0.39, 0],
-       [0, 0.29, 0],
-     ]
+// using colorblend visualization  in EO browser
+return colorBlend(
+  // Start of colorBlend function
+  index, //  specify the index
+  [0, 0.1, 0.2, 0.4, 0.5, 0.7, 1], //  specify the borders
+  [
+    [0.69, 0.88, 0.9], // specify RGB colors
+    [0.74, 0.72, 0.42],
+    [0.6, 0.8, 0.2],
+    [0.13, 0.54, 0.13],
+    [0, 0.5, 0],
+    [0, 0.39, 0],
+    [0, 0.29, 0],
+  ]
 );
 
 /*

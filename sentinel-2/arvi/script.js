@@ -10,4 +10,4 @@
 let y = 0.106;
 let index = (B8A - B04 - y * (B04 - B02)) / (B8A + B04 - y * (B04 - B02));
 
-return[index];
+return [index];

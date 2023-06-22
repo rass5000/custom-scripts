@@ -9,27 +9,31 @@ When using SCL its very important to use nearest neighbor resampling with a reso
 
 function setup() {
   return {
-    input: [{
-      bands: [
-        "B04",
-        "B03",
-        "B02",
-        "SCL"
-      ]
-    }],
+    input: [
+      {
+        bands: ["B04", "B03", "B02", "SCL"],
+      },
+    ],
     output: { bands: 3, sampleType: "UINT16" },
-    mosaicking: "ORBIT"
-  }
+    mosaicking: "ORBIT",
+  };
 }
 function preProcessScenes(collections) {
-  collections.scenes.orbits = collections.scenes.orbits.filter(function (orbit) {
-    var orbitDateFrom = new Date(orbit.dateFrom)
-    return orbitDateFrom.getTime() >= (collections.to.getTime() - 3 * 31 * 24 * 3600 * 1000);
-  })
-  return collections
+  collections.scenes.orbits = collections.scenes.orbits.filter(function (
+    orbit
+  ) {
+    var orbitDateFrom = new Date(orbit.dateFrom);
+    return (
+      orbitDateFrom.getTime() >=
+      collections.to.getTime() - 3 * 31 * 24 * 3600 * 1000
+    );
+  });
+  return collections;
 }
 function getValue(values) {
-  values.sort(function (a, b) { return a - b; });
+  values.sort(function (a, b) {
+    return a - b;
+  });
   return getFirstQuartile(values);
 }
 
@@ -43,30 +47,43 @@ function getDarkestPixel(sortedValues) {
 function validate(samples) {
   var scl = samples.SCL;
 
-  if (scl === 3) { // SC_CLOUD_SHADOW
+  if (scl === 3) {
+    // SC_CLOUD_SHADOW
     return false;
-  } else if (scl === 9) { // SC_CLOUD_HIGH_PROBA
+  } else if (scl === 9) {
+    // SC_CLOUD_HIGH_PROBA
     return false;
-  } else if (scl === 8) { // SC_CLOUD_MEDIUM_PROBA
+  } else if (scl === 8) {
+    // SC_CLOUD_MEDIUM_PROBA
     return false;
-  } else if (scl === 7) { // SC_CLOUD_LOW_PROBA / UNCLASSIFIED
+  } else if (scl === 7) {
+    // SC_CLOUD_LOW_PROBA / UNCLASSIFIED
     // return false;
-  } else if (scl === 10) { // SC_THIN_CIRRUS
+  } else if (scl === 10) {
+    // SC_THIN_CIRRUS
     return false;
-  } else if (scl === 11) { // SC_SNOW_ICE
+  } else if (scl === 11) {
+    // SC_SNOW_ICE
     return false;
-  } else if (scl === 1) { // SC_SATURATED_DEFECTIVE
+  } else if (scl === 1) {
+    // SC_SATURATED_DEFECTIVE
     return false;
-  } else if (scl === 2) { // SC_DARK_FEATURE_SHADOW
+  } else if (scl === 2) {
+    // SC_DARK_FEATURE_SHADOW
     // return false;
   }
   return true;
 }
 
 function evaluatePixel(samples, scenes) {
-  var clo_b02 = []; var clo_b03 = []; var clo_b04 = [];
-  var clo_b02_invalid = []; var clo_b03_invalid = []; var clo_b04_invalid = [];
-  var a = 0; var a_invalid = 0;
+  var clo_b02 = [];
+  var clo_b03 = [];
+  var clo_b04 = [];
+  var clo_b02_invalid = [];
+  var clo_b03_invalid = [];
+  var clo_b04_invalid = [];
+  var a = 0;
+  var a_invalid = 0;
 
   for (var i = 0; i < samples.length; i++) {
     var sample = samples[i];
@@ -104,7 +121,5 @@ function evaluatePixel(samples, scenes) {
     gValue = 0;
     bValue = 0;
   }
-  return [rValue * 10000,
-  gValue * 10000,
-  bValue * 10000]
+  return [rValue * 10000, gValue * 10000, bValue * 10000];
 }

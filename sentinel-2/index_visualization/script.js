@@ -1,6 +1,6 @@
 function visualize_idx(band1, band2, gain) {
   let idx = index(band1, band2);
-  return [idx, band1* gain, band2 * gain];
+  return [idx, band1 * gain, band2 * gain];
 }
 //let ndsi_viz = visualize_idx(B03, B12, 1);
 //let ndwi_viz = visualize_idx(B08, B12, 1.5);

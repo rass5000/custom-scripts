@@ -11,11 +11,11 @@ eddies, temperature induced vortices, suspended matter in shallow water, oil sli
 
 */
 
-var v1 = Math.log((B02/B03)); 
-var v2 = Math.log((B03/B04));
-var v3 = Math.log((B04/B08));
+var v1 = Math.log(B02 / B03);
+var v2 = Math.log(B03 / B04);
+var v3 = Math.log(B04 / B08);
 
-return [v1,v2,v3];
+return [v1, v2, v3];
 
 // alternatively, one can enhace the green band fraction slightly more, by multiplying v1 with v2 in the R band
 // return [v1*v2,v2,v3];

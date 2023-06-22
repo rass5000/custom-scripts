@@ -5,22 +5,20 @@
 function setup() {
   return {
     input: ["LAI", "dataMask"],
-    output: { bands: 4 }
-
-  }
+    output: { bands: 4 },
+  };
 }
-const map =
-  [
-    [0.000, 0xFFFFE5],
-    [1.000, 0xF7FCB9],
-    [2.000, 0xD9F0A3],
-    [3.000, 0xADDD8E],
-    [4.000, 0x78C679],
-    [5.000, 0x41AB5D],
-    [6.000, 0x238443],
-    [7.000, 0x006837],
-    [8.000, 0x004529]
-  ]
+const map = [
+  [0.0, 0xffffe5],
+  [1.0, 0xf7fcb9],
+  [2.0, 0xd9f0a3],
+  [3.0, 0xaddd8e],
+  [4.0, 0x78c679],
+  [5.0, 0x41ab5d],
+  [6.0, 0x238443],
+  [7.0, 0x006837],
+  [8.0, 0x004529],
+];
 
 const visualizer = new ColorMapVisualizer(map);
 

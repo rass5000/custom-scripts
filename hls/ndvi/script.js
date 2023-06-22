@@ -3,12 +3,13 @@
 function setup() {
   return {
     input: ["NIR_Narrow", "Red", "dataMask"],
-    output: { bands: 4 }
+    output: { bands: 4 },
   };
 }
 
 function evaluatePixel(sample) {
-  var ndvi = (sample.NIR_Narrow - sample.Red) / (sample.NIR_Narrow + sample.Red)
+  var ndvi =
+    (sample.NIR_Narrow - sample.Red) / (sample.NIR_Narrow + sample.Red);
 
   if (ndvi < -1.1) return [0, 0, 0, sample.dataMask];
   else if (ndvi < -0.2) return [0.75, 0.75, 0.75, sample.dataMask];

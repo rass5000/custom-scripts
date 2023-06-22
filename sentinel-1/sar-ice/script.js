@@ -8,7 +8,7 @@ function overlay(top, bottom) {
 function stretch(arr, min, max) {
   var delta = max - min;
   var offset = -min / delta;
-  return arr/delta + offset;
+  return arr / delta + offset;
 }
 
 function gamma(arr, val) {

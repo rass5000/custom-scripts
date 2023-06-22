@@ -8,16 +8,16 @@ function setup() {
     input: ["extent"],
     output: {
       bands: 3,
-      sampleType: "AUTO"
-    }
+      sampleType: "AUTO",
+    },
   };
 }
 
 //Create discrete color map
 const map = [
-  [0, 0xffffff],  //Not water (White)
-  [1, 0x6666ff],  //Water detected (Light blue)
-  [255, 0xcccccc] //No data (Light gray)
+  [0, 0xffffff], //Not water (White)
+  [1, 0x6666ff], //Water detected (Light blue)
+  [255, 0xcccccc], //No data (Light gray)
 ];
 
 //Create visualizer
@@ -25,5 +25,9 @@ const visualizer = new ColorMapVisualizer(map);
 
 //EvaluatePixel function
 function evaluatePixel(sample) {
-  return [visualizer.process(sample.extent)[0], visualizer.process(sample.extent)[1], visualizer.process(sample.extent)[2]];
+  return [
+    visualizer.process(sample.extent)[0],
+    visualizer.process(sample.extent)[1],
+    visualizer.process(sample.extent)[2],
+  ];
 }

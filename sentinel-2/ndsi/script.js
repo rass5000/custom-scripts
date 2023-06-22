@@ -7,18 +7,17 @@
 let viz = new Identity();
 
 function evaluatePixel(samples) {
-    let val = index(samples.B03, samples.B11);
-    return viz.process(val);
+  let val = index(samples.B03, samples.B11);
+  return viz.process(val);
 }
 
 function setup() {
   return {
-    input: [{
-      bands: [
-          "B03",
-          "B11"
-      ]
-    }],
-    output: { bands: 1 }
-  }
+    input: [
+      {
+        bands: ["B03", "B11"],
+      },
+    ],
+    output: { bands: 1 },
+  };
 }

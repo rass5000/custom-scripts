@@ -3,13 +3,13 @@
 
 //ndwi
 var colorRamp1 = [
-  	[0, 0xFFFFFF],
-  	[1, 0x008000]
-  ];
+  [0, 0xffffff],
+  [1, 0x008000],
+];
 var colorRamp2 = [
-  	[0, 0xFFFFFF],
-  	[1, 0x0000CC]
-  ];
+  [0, 0xffffff],
+  [1, 0x0000cc],
+];
 
 let viz1 = new ColorRampVisualizer(colorRamp1);
 let viz2 = new ColorRampVisualizer(colorRamp2);
@@ -26,14 +26,13 @@ function evaluatePixel(samples) {
 
 function setup() {
   return {
-    input: [{
-      bands: [
-        "B03",
-        "B08"
-      ]
-    }],
+    input: [
+      {
+        bands: ["B03", "B08"],
+      },
+    ],
     output: {
-      bands: 3
-    }
-  }
+      bands: 3,
+    },
+  };
 }

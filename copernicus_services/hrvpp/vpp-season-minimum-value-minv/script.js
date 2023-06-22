@@ -6,21 +6,20 @@ function setup() {
   return {
     input: ["MINV", "dataMask"],
     output: { bands: 4 },
-    mosaicking: Mosaicking.TILE
-  }
+    mosaicking: Mosaicking.TILE,
+  };
 }
-const map =
-  [
-    [0.000, 0xFFFFE5],
-    [0.375, 0xF7FCB9],
-    [0.750, 0xD9F0A3],
-    [1.125, 0xADDD8E],
-    [1.500, 0x78C679],
-    [1.875, 0x41AB5D],
-    [2.250, 0x238443],
-    [2.625, 0x006837],
-    [3.000, 0x004529]
-  ]
+const map = [
+  [0.0, 0xffffe5],
+  [0.375, 0xf7fcb9],
+  [0.75, 0xd9f0a3],
+  [1.125, 0xaddd8e],
+  [1.5, 0x78c679],
+  [1.875, 0x41ab5d],
+  [2.25, 0x238443],
+  [2.625, 0x006837],
+  [3.0, 0x004529],
+];
 
 const visualizer = new ColorMapVisualizer(map);
 

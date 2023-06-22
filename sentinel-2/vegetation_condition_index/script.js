@@ -3,7 +3,7 @@ function setup() {
   return {
     input: ["B04", "B08", "CLM", "dataMask"],
     output: { bands: 1 },
-    mosaicking: "ORBIT"
+    mosaicking: "ORBIT",
   };
 }
 
@@ -13,7 +13,7 @@ const NODATA = -32768;
 const toleranceDays = 5;
 const msInDay = 24 * 60 * 60 * 1000;
 const msInYear = 365.25 * msInDay;
-const msInHalfYear = msInYear / 2
+const msInHalfYear = msInYear / 2;
 const toleranceMs = toleranceDays * msInDay;
 
 var metadata = undefined;
@@ -24,13 +24,13 @@ function relDiff(a, b) {
 }
 
 function datetimeToYearEpoch(date) {
-  return date - new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  return date - new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
 }
 
 function sortDatesDescending(d1, d2) {
   const date1 = new Date(d1.dateFrom);
   const date2 = new Date(d2.dateFrom);
-  return date2 - date1
+  return date2 - date1;
 }
 
 function preProcessScenes(collections) {
@@ -40,11 +40,11 @@ function preProcessScenes(collections) {
   let newScenes = [];
   // convert first scene to day of year
   const observed = new Date(scenes[0].dateFrom);
-  const obsMs = datetimeToYearEpoch(observed)
+  const obsMs = datetimeToYearEpoch(observed);
   for (let i = 0; i < scenes.length; i++) {
     let currentDate = new Date(scenes[i].dateFrom);
-    let sceneMs = datetimeToYearEpoch(currentDate)
-    let dt = relDiff(obsMs, sceneMs)
+    let sceneMs = datetimeToYearEpoch(currentDate);
+    let dt = relDiff(obsMs, sceneMs);
     if (dt <= toleranceMs) {
       newScenes.push(scenes[i]);
     }
@@ -52,13 +52,12 @@ function preProcessScenes(collections) {
 
   metadata = {
     observed: observed.toISOString(),
-    historical: newScenes.slice(1).map(scene => scene.dateFrom)
-  }
+    historical: newScenes.slice(1).map((scene) => scene.dateFrom),
+  };
 
   collections.scenes.orbits = newScenes;
   return collections;
 }
-
 
 function updateOutputMetadata(scenes, inputMetadata, outputMetadata) {
   outputMetadata.userData = metadata;
@@ -69,18 +68,18 @@ function calcNDVI(sample) {
 }
 
 function calcMaxMin(samples) {
-  let ndvi = calcNDVI(samples[0])
+  let ndvi = calcNDVI(samples[0]);
   let max = ndvi;
   let min = ndvi;
   for (let i = 1; i < samples.length; ++i) {
-    ndvi = calcNDVI(samples[i])
+    ndvi = calcNDVI(samples[i]);
     if (ndvi > max) {
       max = ndvi;
     } else if (ndvi < min) {
       min = ndvi;
     }
   }
-  return [max, min]
+  return [max, min];
 }
 
 function isClear(sample) {
@@ -90,14 +89,16 @@ function isClear(sample) {
 function evaluatePixel(samples) {
   // if the first value isn't clear, stop
   if (!isClear(samples[0])) {
-    return [NODATA]
+    return [NODATA];
   }
-  const clearTs = samples.filter(isClear)
+  const clearTs = samples.filter(isClear);
   const observed = index(clearTs[0].B08, clearTs[0].B04);
-  let max = NODATA, min = NODATA, vci = NODATA;
+  let max = NODATA,
+    min = NODATA,
+    vci = NODATA;
   if (clearTs.length > 0) {
     [max, min] = calcMaxMin(clearTs);
-    vci = (observed - min) / (max - min)
+    vci = (observed - min) / (max - min);
   }
 
   return [vci];

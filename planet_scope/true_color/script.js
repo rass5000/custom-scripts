@@ -4,7 +4,7 @@
 function setup() {
   return {
     input: ["Blue", "Green", "Red"],
-    output: { bands: 3 }
+    output: { bands: 3 },
   };
 }
 

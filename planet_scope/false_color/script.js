@@ -4,7 +4,7 @@
 function setup() {
   return {
     input: ["NIR", "Green", "Blue"],
-    output: { bands: 3 }
+    output: { bands: 3 },
   };
 }
 

@@ -2,7 +2,8 @@
 
 var val = (Green / 3000 - NIR / 3000) / (Green / 3000 + NIR / 3000);
 
-return colorBlend(val,
+return colorBlend(
+  val,
   [-1, -0.5, -0.2, 0, 0.2, 0.5, 1.0],
   [
     [1, 0, 1],
@@ -12,4 +13,5 @@ return colorBlend(val,
     [0, 0, 1],
     [0, 0, 0.3],
     [0, 0, 0],
-  ]);
+  ]
+);

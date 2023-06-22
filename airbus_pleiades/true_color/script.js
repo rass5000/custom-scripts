@@ -4,10 +4,10 @@
 function setup() {
   return {
     input: ["B0", "B1", "B2"],
-    output: { bands: 3 }
+    output: { bands: 3 },
   };
 }
 
 function evaluatePixel(sample) {
-  return [sample.B2/3000, sample.B1/3000, sample.B0/3000];
+  return [sample.B2 / 3000, sample.B1 / 3000, sample.B0 / 3000];
 }

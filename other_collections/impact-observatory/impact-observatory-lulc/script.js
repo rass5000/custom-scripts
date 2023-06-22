@@ -9,8 +9,8 @@ const colormap = [
   [8, 0xa59b8f],
   [9, 0xa8ebff],
   [10, 0x616161],
-  [11, 0xe3e2c3]
-]
+  [11, 0xe3e2c3],
+];
 
 const visualizer = new ColorMapVisualizer(colormap);
 
@@ -29,14 +29,14 @@ function evaluatePixel(samples) {
 
 function setup() {
   return {
-    input: [{
-      bands: [
-        "lulc", "dataMask"
-      ]
-    }],
+    input: [
+      {
+        bands: ["lulc", "dataMask"],
+      },
+    ],
     output: {
       bands: 4,
     },
-    mosaicking: "TILE"
-  }
+    mosaicking: "TILE",
+  };
 }

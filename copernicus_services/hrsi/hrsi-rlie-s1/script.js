@@ -4,16 +4,15 @@ function setup() {
     input: ["RLIE", "dataMask"],
     output: {
       bands: 4,
-      sampleType: "Auto"
-    }
+      sampleType: "Auto",
+    },
   };
-
 }
 
 const map = [
-  [1, 0x0000FE],  //1 - Open water
-  [100, 0x00E8FF],  //100 - Snow-covered or snow-free ice
-  [255, 0xFFFFFF]  //255 - No data
+  [1, 0x0000fe], //1 - Open water
+  [100, 0x00e8ff], //100 - Snow-covered or snow-free ice
+  [255, 0xffffff], //255 - No data
 ];
 
 const visualizer = new ColorMapVisualizer(map);

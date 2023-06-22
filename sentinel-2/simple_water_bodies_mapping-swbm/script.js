@@ -40,52 +40,60 @@ var SWI_thr = 0.03; //only for S2
 // OTHER:
 // function "index(x,y)" is: (x - y) / (x + y)
 
-
 ////// VARS
 var nrDS, s1DS, vre1DS;
 // define input bands for different sources
 var inputList;
 switch (source) {
-    case "S2L2A":
-        inputList = ["B02", "B03", "B04", "B05", "B08", "B11", "SCL", "dataMask"];
-        break;
-    case "S2L1C":
-        inputList = ["B02", "B03", "B04", "B05", "B08", "B11", "dataMask"];
-        break;
-    case "L8":
-        inputList = ["B02", "B03", "B04", "B05", "B06", "dataMask"];
-        break;
+  case "S2L2A":
+    inputList = ["B02", "B03", "B04", "B05", "B08", "B11", "SCL", "dataMask"];
+    break;
+  case "S2L1C":
+    inputList = ["B02", "B03", "B04", "B05", "B08", "B11", "dataMask"];
+    break;
+  case "L8":
+    inputList = ["B02", "B03", "B04", "B05", "B06", "dataMask"];
+    break;
 }
-
 
 ////// FUNCTIONS
 //water body id for S2
 function wbiS2(g, nr, s1, vre1) {
-    //water surf.
-    let ws = 0;
-    try {
-        var mndwi = index(g, s1), ndwi = index(g, nr), swi = index(vre1, s1);
-        //DEFINE WB. || OR used which can cause false detection of WB. User can also change to && AND for less false detection of WB, but WB detection is probably then under-detected
-        if (mndwi > MNDWI_thr || ndwi > NDWI_thr || swi > SWI_thr) { ws = 1; }
-    } catch (err) { ws = 0; }
-    return ws;
+  //water surf.
+  let ws = 0;
+  try {
+    var mndwi = index(g, s1),
+      ndwi = index(g, nr),
+      swi = index(vre1, s1);
+    //DEFINE WB. || OR used which can cause false detection of WB. User can also change to && AND for less false detection of WB, but WB detection is probably then under-detected
+    if (mndwi > MNDWI_thr || ndwi > NDWI_thr || swi > SWI_thr) {
+      ws = 1;
+    }
+  } catch (err) {
+    ws = 0;
+  }
+  return ws;
 }
 //water body id for L8
 function wbiL8(g, nr, s1) {
-    //water surf.
-    let ws = 0;
-    try {
-        var mndwi = index(g, s1), ndwi = index(g, nr);
-        //DEFINE WB. || OR used which can cause false detection of WB. User can also change to && AND for less false detection of WB, but WB detection is probably then under-detected
-        if (mndwi > MNDWI_thr || ndwi > NDWI_thr) { ws = 1; }
-    } catch (err) { ws = 0; }
-    return ws;
+  //water surf.
+  let ws = 0;
+  try {
+    var mndwi = index(g, s1),
+      ndwi = index(g, nr);
+    //DEFINE WB. || OR used which can cause false detection of WB. User can also change to && AND for less false detection of WB, but WB detection is probably then under-detected
+    if (mndwi > MNDWI_thr || ndwi > NDWI_thr) {
+      ws = 1;
+    }
+  } catch (err) {
+    ws = 0;
+  }
+  return ws;
 }
-
 
 // optional filtering for clouds using the Sentinel-2A SCL band (values 1, 2, 7, 8, 9, 10, 11 are either clouds or snow)
 function isCloud(scl) {
-    /* SCL bands, user can add more bands, however it might filter scene too much or even filter out water area
+  /* SCL bands, user can add more bands, however it might filter scene too much or even filter out water area
     1-SC_SATURATED_DEFECTIVE
     2-SC_DARK_FEATURE_SHADOW
     3-SC_CLOUD_SHADOW
@@ -95,89 +103,96 @@ function isCloud(scl) {
     10-SC_THIN_CIRRUS
     11-SC_SNOW_ICE
     */
-    if ([8, 9].includes(scl)) {
-        return true;
-    } else {
-        return false;
-    }
+  if ([8, 9].includes(scl)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 // calculate index value for statistics
 function calcInVal(histogramIndex, g, nr, s1, vre1) {
-    if (histogramIndex === 0) {
-        return index(g, s1);
-    } else if (histogramIndex === 1) {
-        return index(g, nr);
-    } else if (histogramIndex === 2) {
-        return index(vre1, s1)
-    } else {
-        // if this retured, there is error!
-        return 9999;
-    }
+  if (histogramIndex === 0) {
+    return index(g, s1);
+  } else if (histogramIndex === 1) {
+    return index(g, nr);
+  } else if (histogramIndex === 2) {
+    return index(vre1, s1);
+  } else {
+    // if this retured, there is error!
+    return 9999;
+  }
 }
 
 ////// SETUP
 function setup() {
-    return {
-        input: inputList,
-        output: [
-            { id: "default", bands: 4 },
-            { id: "index", bands: 1, sampleType: 'FLOAT32' },
-            { id: "eobrowserStats", bands: 2, sampleType: 'FLOAT32' },
-            { id: "dataMask", bands: 1 }
-        ]
-    };
+  return {
+    input: inputList,
+    output: [
+      { id: "default", bands: 4 },
+      { id: "index", bands: 1, sampleType: "FLOAT32" },
+      { id: "eobrowserStats", bands: 2, sampleType: "FLOAT32" },
+      { id: "dataMask", bands: 1 },
+    ],
+  };
 }
 
 ////// MAIN
 function evaluatePixel(p) {
-    // default value for vre1, if stays default that means that L8 is source
-    vre1 = 9999;
+  // default value for vre1, if stays default that means that L8 is source
+  vre1 = 9999;
 
-    // define bands according to source
-    if (source == "S2L2A" || source == "S2L1C") {
-        nrDS = "B08"; s1DS = "B11"; vre1DS = "B05" //S2 bands
-        // for S2, already get the data from channel VRE1 as it does not exist for L8
-        vre1 = p[vre1DS];
-    } else {
-        nrDS = "B05"; s1DS = "B06"; //bands for Landsat 8
-    }
+  // define bands according to source
+  if (source == "S2L2A" || source == "S2L1C") {
+    nrDS = "B08";
+    s1DS = "B11";
+    vre1DS = "B05"; //S2 bands
+    // for S2, already get the data from channel VRE1 as it does not exist for L8
+    vre1 = p[vre1DS];
+  } else {
+    nrDS = "B05";
+    s1DS = "B06"; //bands for Landsat 8
+  }
 
-    // common data for S2 and L8
-    // rgb
-    let b = p.B02, g = p.B03, r = p.B04;
-    //nir,swir1
-    let nr = p[nrDS], s1 = p[s1DS];
+  // common data for S2 and L8
+  // rgb
+  let b = p.B02,
+    g = p.B03,
+    r = p.B04;
+  //nir,swir1
+  let nr = p[nrDS],
+    s1 = p[s1DS];
 
-    //water body id according to the source
-    if (source == "S2L2A" || source == "S2L1C") {
-        w = wbiS2(g, nr, s1, vre1);
-    } else {
-        w = wbiL8(g, nr, s1);
-    }
+  //water body id according to the source
+  if (source == "S2L2A" || source == "S2L1C") {
+    w = wbiS2(g, nr, s1, vre1);
+  } else {
+    w = wbiL8(g, nr, s1);
+  }
 
-    // calculation of the index value for statistics, depending on choosen index
-    let indexVal = p.dataMask === 1 ? calcInVal(histogramIndex, g, nr, s1, vre1) : NaN; // index without no-data values
-    // only clouds SCL source if S2L2A, S2L1C&L8 do not have that
-    let cloud = false;
-    if (source == "S2L2A") {
-        cloud = isCloud(p.SCL) //calling in our cloud filtering functon as a cloud variable
-    }
+  // calculation of the index value for statistics, depending on choosen index
+  let indexVal =
+    p.dataMask === 1 ? calcInVal(histogramIndex, g, nr, s1, vre1) : NaN; // index without no-data values
+  // only clouds SCL source if S2L2A, S2L1C&L8 do not have that
+  let cloud = false;
+  if (source == "S2L2A") {
+    cloud = isCloud(p.SCL); //calling in our cloud filtering functon as a cloud variable
+  }
 
-    let outPixel = null;
+  let outPixel = null;
 
-    // outpixel color definition
-    waterCol = [0, 0, 2, p.dataMask];
-    RGB = [r * 2, g * 2, b * 2, p.dataMask];
+  // outpixel color definition
+  waterCol = [0, 0, 2, p.dataMask];
+  RGB = [r * 2, g * 2, b * 2, p.dataMask];
 
-    //Define color for output, either water body (blue) or not (RGB). Also if cloud detected, pixel should be RGB
-    // note: in case of S2L2A, if cloud filtering would filter out significant areas of water, user can disable below cloud filtering
-    outPixel = (cloud) ? RGB : ((w == 1) ? waterCol : RGB );
+  //Define color for output, either water body (blue) or not (RGB). Also if cloud detected, pixel should be RGB
+  // note: in case of S2L2A, if cloud filtering would filter out significant areas of water, user can disable below cloud filtering
+  outPixel = cloud ? RGB : w == 1 ? waterCol : RGB;
 
-    // Return the 4 inputs and define content for each one
-    return {
-        default: outPixel,
-        index: [indexVal],
-        eobrowserStats: [w, cloud ? 1 : 0],
-        dataMask: [p.dataMask]
-    };
+  // Return the 4 inputs and define content for each one
+  return {
+    default: outPixel,
+    index: [indexVal],
+    eobrowserStats: [w, cloud ? 1 : 0],
+    dataMask: [p.dataMask],
+  };
 }

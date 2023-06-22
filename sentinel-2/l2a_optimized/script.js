@@ -2,7 +2,7 @@
 function setup() {
   return {
     input: ["B04", "B03", "B02", "dataMask"],
-    output: { bands: 4 }
+    output: { bands: 4 },
   };
 }
 
@@ -27,12 +27,12 @@ const gOffPow = Math.pow(gOff, gamma);
 const gOffRange = Math.pow(1 + gOff, gamma) - gOffPow;
 
 function adjGamma(b) {
-  return (Math.pow((b + gOff), gamma) - gOffPow) / gOffRange;
+  return (Math.pow(b + gOff, gamma) - gOffPow) / gOffRange;
 }
 
 // Saturation enhancement
 function satEnh(r, g, b) {
-  const avgS = (r + g + b) / 3.0 * (1 - sat);
+  const avgS = ((r + g + b) / 3.0) * (1 - sat);
   return [clip(avgS + r * sat), clip(avgS + g * sat), clip(avgS + b * sat)];
 }
 
@@ -43,7 +43,11 @@ function clip(s) {
 //contrast enhancement with highlight compression
 function adj(a, tx, ty, maxC) {
   var ar = clip(a / maxC, 0, 1);
-  return ar * (ar * (tx / maxC + ty - 1) - ty) / (ar * (2 * tx / maxC - 1) - tx / maxC);
+  return (
+    (ar * (ar * (tx / maxC + ty - 1) - ty)) /
+    (ar * ((2 * tx) / maxC - 1) - tx / maxC)
+  );
 }
 
-const sRGB = (c) => c <= 0.0031308 ? (12.92 * c) : (1.055 * Math.pow(c, 0.41666666666) - 0.055);  
+const sRGB = (c) =>
+  c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 0.41666666666) - 0.055;
