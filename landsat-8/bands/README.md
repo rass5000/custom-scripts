@@ -106,7 +106,7 @@ Custom script: **return [B08];**
 
 ![B8](fig/fig8.jpg)
 
-## Band 9
+## Band 9 (ERROR - repeated text from band B08)
 
 ### B09 (Cirrus)
 
